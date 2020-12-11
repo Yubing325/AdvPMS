@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Adv.BusinessLogic.Interfaces;
+using Adv.BusinessLogic.Repositories;
 using Adv.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +36,7 @@ namespace Adv.Web
             services.AddDbContext<AdvContext>(options => options.UseSqlite(
                 _configuration.GetConnectionString("DefaultConnection")
             ));
+            services.AddScoped<IIterationRepository, IterationRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Adv.Web", Version = "v1" });
