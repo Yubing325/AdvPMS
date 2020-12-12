@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Adv.BusinessLogic.Interfaces;
@@ -16,6 +17,24 @@ namespace Adv.BusinessLogic.Repositories
             _context = context;
 
         }
+
+        public void CreateIteration(Iteration model)
+        {
+            var iteration = new Iteration
+            {
+                Title = model.Title,
+                Created = DateTime.UtcNow,
+            };
+
+            _context.Iterations.Add(iteration);
+            
+        }
+
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<IEnumerable<Iteration>> GetIterationsAsync()
         {
             return await _context.Iterations.ToListAsync();

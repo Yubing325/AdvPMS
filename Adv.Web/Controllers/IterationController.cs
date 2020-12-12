@@ -23,5 +23,15 @@ namespace Adv.Web.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        public async Task<ActionResult> CreateIteration(Iteration model)
+        {
+             _iterationRepository.CreateIteration(model);
+
+            if(await _iterationRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest();
+        }
+
     }
 }

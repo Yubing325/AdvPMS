@@ -8,6 +8,8 @@ namespace Adv.BusinessLogic.Interfaces
     {
         Task<IEnumerable<Iteration>> GetIterationsAsync();
 
+        void CreateIteration(Iteration model);
 
+        Task<bool> SaveAllAsync();
     }
 }
