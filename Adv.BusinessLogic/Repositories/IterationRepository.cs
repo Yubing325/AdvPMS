@@ -39,5 +39,17 @@ namespace Adv.BusinessLogic.Repositories
         {
             return await _context.Iterations.ToListAsync();
         }
+
+        public void Update(Iteration model)
+        {
+            _context.Entry(model).State = EntityState.Modified;
+        }
+
+        public async Task DeleteIterationAsync(Guid id)
+        {
+            var model = await _context.Iterations.FindAsync(id);
+            
+             _context.Entry(model).State = EntityState.Deleted;
+        }
     }
 }

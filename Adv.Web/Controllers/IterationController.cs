@@ -33,5 +33,25 @@ namespace Adv.Web.Controllers
             return BadRequest();
         }
 
+        [HttpPut]
+        public async Task<ActionResult<Iteration>> UpdateIteration(Iteration model)
+        {
+            _iterationRepository.Update(model);
+
+            if(await _iterationRepository.SaveAllAsync()) return Ok(model);
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteIteration(Guid id)
+        {
+            await _iterationRepository.DeleteIterationAsync(id);
+
+            if(await _iterationRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest();
+        }
+
     }
 }
