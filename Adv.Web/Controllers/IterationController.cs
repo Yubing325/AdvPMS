@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adv.Web.Controllers
 {
-    public class IterationController : ApiBaseController
+    public class IterationsController : ApiBaseController
     {
         private readonly IIterationRepository _iterationRepository;
-        public IterationController(IIterationRepository iterationRepository)
+        public IterationsController(IIterationRepository iterationRepository)
         {
             _iterationRepository = iterationRepository;
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<ActionResult<IEnumerable<Iteration>>> GetIterations()
         {
             var result = await _iterationRepository.GetIterationsAsync();
