@@ -34,11 +34,13 @@ namespace Adv.Web.Controllers
         [HttpPost]
         public async Task<ActionResult<WorkItem>> CreateWorkItem(Guid iterationId, WorkItem model)
         {
-            _workItemRepository.AddWorkItem(iterationId, model);
+
+            var workitem = model;
+            _workItemRepository.AddWorkItem(iterationId, workitem);
 
             if(await _workItemRepository.SaveAllAsync()) 
             {
-                return CreatedAtRoute("GetItem", new {id = model.Id}, model);
+                return CreatedAtRoute("GetItem", new {id = workitem.Id}, workitem);
             }
 
             return BadRequest();

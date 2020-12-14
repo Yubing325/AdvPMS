@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Adv.Data.Entities
 {
@@ -7,5 +8,7 @@ namespace Adv.Data.Entities
         public Guid Id { get; set; }
         public string Title { get; set; }
         public DateTime Created { get; set; }
+
+        public ICollection<WorkItem> WorkItems { get; set; }
     }
 }

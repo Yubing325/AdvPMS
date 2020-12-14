@@ -8,5 +8,7 @@ namespace Adv.Data.Entities
         public WorkItemState State { get; set; }
 
         public Guid IterationId { get; set; } //?? Guid or String
+
+        public Iteration Iteration { get; set; }
     }
 }
