@@ -14,6 +14,6 @@ namespace Adv.Data.Entities
 
         public DateTime? LastModified { get; set; }
 
-        public int Priority { get; set; }
+        public int Priority { get; set; } = 0;
     }
 }

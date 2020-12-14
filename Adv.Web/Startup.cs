@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Adv.BusinessLogic.Interfaces;
 using Adv.BusinessLogic.Repositories;
 using Adv.Data;
+using Adv.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,12 +32,12 @@ namespace Adv.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddAppRepositories();
             services.AddControllers();
             services.AddDbContext<AdvContext>(options => options.UseSqlite(
                 _configuration.GetConnectionString("DefaultConnection")
             ));
-            services.AddScoped<IIterationRepository, IterationRepository>();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Adv.Web", Version = "v1" });
