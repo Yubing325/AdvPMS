@@ -1,21 +1,26 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Adv.BusinessLogic.Interfaces;
+using Adv.Data;
 using Adv.Data.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Adv.Web.Controllers
 {
     public class IterationsController : ApiBaseController
     {
         private readonly IIterationRepository _iterationRepository;
-        public IterationsController(IIterationRepository iterationRepository)
+        private readonly AdvContext _context;
+        public IterationsController(IIterationRepository iterationRepository, AdvContext context)
         {
+            _context = context;
             _iterationRepository = iterationRepository;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Iteration>>> GetIterations()
         {
             var result = await _iterationRepository.GetIterationsAsync();
@@ -23,34 +28,74 @@ namespace Adv.Web.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id}", Name="GetIteration")]
+        public async Task<ActionResult<Iteration>> GetIteration(Guid id)
+        {
+            var iteration = await _context.Iterations.FindAsync(id);
+
+            if (iteration == null) return NotFound();
+
+            return iteration;
+        }
+
+
         [HttpPost]
         public async Task<ActionResult> CreateIteration(Iteration model)
         {
-             _iterationRepository.CreateIteration(model);
+            _iterationRepository.CreateIteration(model);
 
-            if(await _iterationRepository.SaveAllAsync()) return Ok();
-
-            return BadRequest();
-        }
-
-        [HttpPut]
-        public async Task<ActionResult<Iteration>> UpdateIteration(Iteration model)
-        {
-            _iterationRepository.Update(model);
-
-            if(await _iterationRepository.SaveAllAsync()) return Ok(model);
+            if (await _iterationRepository.SaveAllAsync()) 
+            {
+                return CreatedAtRoute("GetIteration", new {id = model.Id}, model);
+            }
 
             return BadRequest();
         }
 
-        [HttpDelete]
-        public async Task<ActionResult> DeleteIteration(Guid id)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Iteration>> UpdateIteration(Guid id, Iteration model)
         {
-            await _iterationRepository.DeleteIterationAsync(id);
+            if (id != model.Id) return BadRequest();
 
-            if(await _iterationRepository.SaveAllAsync()) return Ok();
+            _context.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
-            return BadRequest();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!IterationExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
+       [HttpDelete("{id}")]
+       public async Task<IActionResult> DeleteIteration(Guid id)
+       {
+            var todoItem = await _context.Iterations.FindAsync(id);
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _context.Iterations.Remove(todoItem);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool IterationExists(Guid id)
+        {
+            return _context.Iterations.Any(e => e.Id == id);
         }
 
     }

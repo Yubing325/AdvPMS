@@ -20,14 +20,8 @@ namespace Adv.BusinessLogic.Repositories
 
         public void CreateIteration(Iteration model)
         {
-            var iteration = new Iteration
-            {
-                Title = model.Title,
-                Created = DateTime.UtcNow,
-            };
-
-            _context.Iterations.Add(iteration);
-            
+            model.Created = DateTime.UtcNow;
+            _context.Iterations.Add(model);
         }
 
         public async Task<bool> SaveAllAsync()

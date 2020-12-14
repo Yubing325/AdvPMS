@@ -17,20 +17,13 @@ namespace Adv.BusinessLogic.Repositories
 
         }
 
-        public void AddWorkItem(Guid iterationId, WorkItem model)
+        public void AddWorkItem(Guid iterationId, WorkItem workItem)
         {
             if(iterationId == null) throw new ArgumentNullException(nameof(iterationId)); 
 
-            WorkItem workItem = new WorkItem
-            {
-                Title = model.Title,
-                Description = model.Description,
-                Created = DateTime.UtcNow,
-                LastModified = DateTime.UtcNow,
-                Priority = model.Priority,
-                State = model.State,
-                IterationId = iterationId
-            };
+            workItem.IterationId = iterationId;
+            workItem.Created = DateTime.UtcNow;
+            workItem.LastModified = DateTime.UtcNow;
 
             _context.WorkItems.Add(workItem);
         }
