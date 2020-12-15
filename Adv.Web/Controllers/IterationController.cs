@@ -81,13 +81,13 @@ namespace Adv.Web.Controllers
        [HttpDelete("{id}")]
        public async Task<IActionResult> DeleteIteration(Guid id)
        {
-            var todoItem = await _context.Iterations.FindAsync(id);
-            if (todoItem == null)
+            var iteration = await _context.Iterations.FindAsync(id);
+            if (iteration == null)
             {
                 return NotFound();
             }
 
-            _context.Iterations.Remove(todoItem);
+            _context.Iterations.Remove(iteration);
             await _context.SaveChangesAsync();
 
             return NoContent();

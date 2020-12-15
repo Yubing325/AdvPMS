@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Adv.BusinessLogic.Interfaces;
 using Adv.Data;
@@ -33,14 +34,17 @@ namespace Adv.BusinessLogic.Repositories
             return await _context.WorkItems.FindAsync(id);
         }
 
-        public async Task<IEnumerable<WorkItem>> GetWorkItems()
+        public async Task<IEnumerable<WorkItem>> GetWorkItems(Guid IterationId)
         {
-            return await _context.WorkItems.ToListAsync();
+            return await _context.WorkItems.Where(i => i.IterationId == IterationId)
+                                           .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0 ;
         }
+
+        
     }
 }

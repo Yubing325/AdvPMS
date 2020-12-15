@@ -9,7 +9,7 @@ namespace Adv.BusinessLogic.Interfaces
     {
         void AddWorkItem(Guid iterationId, WorkItem model);
 
-        Task<IEnumerable<WorkItem>> GetWorkItems();
+        Task<IEnumerable<WorkItem>> GetWorkItems(Guid IterationId);
 
         Task<WorkItem> GetWorkItem(Guid id);
 
