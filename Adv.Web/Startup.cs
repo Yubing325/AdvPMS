@@ -6,6 +6,8 @@ using Adv.BusinessLogic.Interfaces;
 using Adv.BusinessLogic.Repositories;
 using Adv.Data;
 using Adv.Web.Extensions;
+using Adv.Web.Helpers;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +35,7 @@ namespace Adv.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAppRepositories();
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddControllers();
             services.AddDbContext<AdvContext>(options => options.UseSqlite(
                 _configuration.GetConnectionString("DefaultConnection")

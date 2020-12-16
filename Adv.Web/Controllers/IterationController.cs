@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Adv.BusinessLogic.Interfaces;
 using Adv.Data;
 using Adv.Data.Entities;
+using Adv.Web.Dtos;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,39 +16,48 @@ namespace Adv.Web.Controllers
     {
         private readonly IIterationRepository _iterationRepository;
         private readonly AdvContext _context;
-        public IterationsController(IIterationRepository iterationRepository, AdvContext context)
+        private readonly IMapper _mapper;
+        public IterationsController(IIterationRepository iterationRepository, AdvContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
             _iterationRepository = iterationRepository;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Iteration>>> GetIterations()
+        public async Task<ActionResult<IEnumerable<IterationDto>>> GetIterations()
         {
-            var result = await _iterationRepository.GetIterationsAsync();
+            var iterations = await _iterationRepository.GetIterationsAsync();
+
+            IEnumerable<IterationDto> result = _mapper.Map<IEnumerable<IterationDto>>(iterations);
 
             return Ok(result);
         }
 
-        [HttpGet("{id}", Name="GetIteration")]
-        public async Task<ActionResult<Iteration>> GetIteration(Guid id)
+        [HttpGet("{id}", Name = "GetIteration")]
+        public async Task<ActionResult<IterationDto>> GetIteration(Guid id)
         {
             var iteration = await _context.Iterations.FindAsync(id);
 
             if (iteration == null) return NotFound();
 
-            return iteration;
+            var result = _mapper.Map<IterationDto>(iteration);
+
+            return result;
         }
 
 
         [HttpPost]
-        public async Task<ActionResult> CreateIteration(Iteration model)
+        public async Task<ActionResult> CreateIteration(IterationCreationUpdateDto model)
         {
-            _iterationRepository.CreateIteration(model);
+            var iterationEntity = _mapper.Map<Iteration>(model);
+            _iterationRepository.CreateIteration(iterationEntity);
 
-            if (await _iterationRepository.SaveAllAsync()) 
+            var iterationToReturn = _mapper.Map<IterationDto>(iterationEntity);
+
+            if (await _iterationRepository.SaveAllAsync())
             {
-                return CreatedAtRoute("GetIteration", new {id = model.Id}, model);
+                return CreatedAtRoute("GetIteration", new { id = iterationEntity.Id }, iterationToReturn);
             }
 
             return BadRequest();
@@ -78,9 +89,9 @@ namespace Adv.Web.Controllers
             return NoContent();
         }
 
-       [HttpDelete("{id}")]
-       public async Task<IActionResult> DeleteIteration(Guid id)
-       {
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteIteration(Guid id)
+        {
             var iteration = await _context.Iterations.FindAsync(id);
             if (iteration == null)
             {
