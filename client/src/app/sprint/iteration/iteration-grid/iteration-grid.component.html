@@ -1,1 +1,14 @@
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta libero voluptatibus debitis, incidunt, labore nostrum quod distinctio qui, sit corporis rem quidem ullam autem consequatur totam ducimus voluptate nisi ipsum.</p>
+<ng-container *ngIf="iterations">
+    <div class="card" *ngFor="let iteration of iterations">
+        
+        <div class="card-body">
+            <div class="card-title">
+                {{iteration.title}}
+            </div>
+            <div class="card-text">
+                created at {{iteration.created |date }}
+            </div>
+            <a href="#" class="btn btn-primary">Button</a>
+        </div>
+    </div>
+</ng-container>
