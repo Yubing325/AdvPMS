@@ -37,6 +37,7 @@ namespace Adv.Web
             services.AddAppRepositories();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddControllers();
+            services.AddCors();
             services.AddDbContext<AdvContext>(options => options.UseSqlite(
                 _configuration.GetConnectionString("DefaultConnection")
             ));
@@ -60,6 +61,10 @@ namespace Adv.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+            app.UseCors(policy => {
+                policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+            });
 
             app.UseAuthorization();
 
