@@ -27,6 +27,15 @@ namespace Adv.Web.Controllers
             _workItemRepository = workItemRepository;
         }
 
+    [HttpGet("/api/workitems")]
+    public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetAllWorkItems()
+    {
+        var workitems = await _workItemRepository.GetWorkItems();        
+
+        var result = _mapper.Map<IEnumerable<WorkItemDto>>(workitems);
+        return Ok(result);
+    }
+
     [HttpGet(Name = "GetWorkItemsForIteration")]
     public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetWorkItems(Guid IterationId)
     {

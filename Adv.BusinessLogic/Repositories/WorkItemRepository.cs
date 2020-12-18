@@ -34,10 +34,17 @@ namespace Adv.BusinessLogic.Repositories
             return await _context.WorkItems.FindAsync(id);
         }
 
-        public async Task<IEnumerable<WorkItem>> GetWorkItems(Guid IterationId)
+        public async Task<IEnumerable<WorkItem>> GetWorkItems(Guid iterationId)
         {
-            return await _context.WorkItems.Where(i => i.IterationId == IterationId)
-                                           .ToListAsync();
+            if(iterationId != null && iterationId != Guid.Empty)
+            {
+                return await _context.WorkItems
+                                        .Where(i => i.IterationId == iterationId)
+                                        .ToListAsync();
+            }
+
+            return await _context.WorkItems.ToListAsync();
+
         }
 
         public async Task<bool> SaveAllAsync()
