@@ -11,6 +11,9 @@ import { BacklogsComponent } from './backlogs/backlogs.component';
 import { IterationEditComponent } from './iteration/iteration-edit/iteration-edit.component';
 import { IterationGridComponent } from './iteration/iteration-grid/iteration-grid.component';
 import { SprintRoutingModule } from './sprint-routing.module.';
+import { WorkItemGridComponent } from './workItem/work-item-grid/work-item-grid.component';
+import { WorkItemEditComponent } from './workItem/work-item-edit/work-item-edit.component';
+import { WorkItemDetailComponent } from './workItem/work-item-detail/work-item-detail.component';
 
 
 
@@ -18,7 +21,7 @@ import { SprintRoutingModule } from './sprint-routing.module.';
 
 
 @NgModule({
-  declarations: [ StoryBoardsComponent, BacklogsComponent, IterationEditComponent, IterationGridComponent],
+  declarations: [ StoryBoardsComponent, BacklogsComponent, IterationEditComponent, IterationGridComponent, WorkItemGridComponent, WorkItemEditComponent, WorkItemDetailComponent],
   imports: [
     CommonModule,
     SprintRoutingModule,
