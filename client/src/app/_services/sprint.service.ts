@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Iteration } from '../sprint/_models/iteration';
+import { WorkItem } from '../sprint/_models/workItem';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,10 @@ constructor(private http: HttpClient) { }
 
 getIterations() : Observable<Iteration[]>{
   return this.http.get<Iteration[]>(this.baseUrl + '/iterations');
+}
+
+getAllWorkItems(): Observable<WorkItem[]>{
+  return this.http.get<WorkItem[]>(this.baseUrl+ '/workitems');
 }
 
 }
