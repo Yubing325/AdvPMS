@@ -9,7 +9,9 @@ import { Iteration } from '../../_models/iteration';
 })
 export class IterationGridComponent implements OnInit {
 
-  iterations: Iteration[] = [];
+  iterations: Iteration[] = [];  
+  cols: { field: string; header: string; }[];
+  cols2 = ["id", "title", "date"];
 
   constructor(private sprintService: SprintService) { }
 
@@ -23,6 +25,12 @@ export class IterationGridComponent implements OnInit {
         console.error(error);
       }
     );
+
+    this.cols = [
+      { field: 'id', header: 'Id' },
+      { field: 'title', header: 'Title' },
+      { field: 'created', header: 'Created' }
+    ];
   }
 
 }
