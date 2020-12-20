@@ -30,23 +30,37 @@ namespace Adv.Web.Controllers
     [HttpGet("/api/workitems")]
     public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetAllWorkItems()
     {
-        var workitems = await _workItemRepository.GetWorkItems();        
+        var workitems = await _workItemRepository.GetWorkItems();
 
-        var result = _mapper.Map<IEnumerable<WorkItemDto>>(workitems);
+        var query = from i in _context.Iterations
+                    join wi in _context.WorkItems on i.Id equals wi.IterationId
+                    select new WorkItemDto()
+                    {
+                        Id = wi.Id, 
+                        Title = wi.Title, 
+                        Description = wi.Description, 
+                        Iteration = i.Title, 
+                        IterationId = i.Id,
+                        Created=wi.Created,
+                        LastModified=wi.LastModified.Value,
+                    };
+
+        //var result = _mapper.Map<IEnumerable<WorkItemDto>>(workitems);
+        var result = query.ToList();
         return Ok(result);
     }
 
     [HttpGet(Name = "GetWorkItemsForIteration")]
-    public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetWorkItems(Guid IterationId)
+    public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetWorkItems(Guid iterationId)
     {
-        var workitems = await _workItemRepository.GetWorkItems(IterationId);
-
+        var workitems = await _workItemRepository.GetWorkItems(iterationId);
+        
         var result = _mapper.Map<IEnumerable<WorkItemDto>>(workitems);
         return Ok(result);
     }
 
     [HttpGet("{id}", Name = "GetWorkItem")]
-    public async Task<ActionResult<WorkItemDto>> GetWorkItem(Guid IterationId, Guid id)
+    public async Task<ActionResult<WorkItemDto>> GetWorkItem(Guid iterationId, Guid id)
     {
         var workItem = await _workItemRepository.GetWorkItem(id);
 
@@ -67,7 +81,7 @@ namespace Adv.Web.Controllers
         if (await _workItemRepository.SaveAllAsync())
         {
             var workItemToReturn = _mapper.Map<WorkItemDto>(workItemEntity);
-            return CreatedAtRoute("GetWorkItem", new { IterationId = iterationId, id = workItemEntity.Id }, workItemToReturn);
+            return CreatedAtRoute("GetWorkItem", new { iterationId = iterationId, id = workItemEntity.Id }, workItemToReturn);
         }
 
         return BadRequest();

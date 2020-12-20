@@ -15,7 +15,11 @@ namespace Adv.Web.Dtos
         public DateTime LastModified { get; set; }
 
         public int Priority { get; set; }
+        
         public WorkItemState State { get; set; }
+
         public Guid IterationId { get; set; }
+        
+        public string Iteration { get; set; }
     }
 }
