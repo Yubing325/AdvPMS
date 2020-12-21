@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Adv.BusinessLogic.Interfaces;
 using Adv.Data;
 using Adv.Data.Entities;
+using Adv.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Adv.BusinessLogic.Repositories
+namespace Adv.Data.Repositories
 {
     public class WorkItemRepository : IWorkItemRepository
     {
@@ -20,7 +20,7 @@ namespace Adv.BusinessLogic.Repositories
 
         public void AddWorkItem(Guid iterationId, WorkItem workItem)
         {
-            if(iterationId == null) throw new ArgumentNullException(nameof(iterationId)); 
+            if(iterationId.Equals(Guid.Empty)) throw new ArgumentNullException(nameof(iterationId)); 
 
             workItem.IterationId = iterationId;
             workItem.Created = DateTime.UtcNow;
@@ -36,7 +36,7 @@ namespace Adv.BusinessLogic.Repositories
 
         public async Task<IEnumerable<WorkItem>> GetWorkItems(Guid iterationId)
         {
-            if(iterationId != null && iterationId != Guid.Empty)
+            if(iterationId != Guid.Empty)
             {
                 return await _context.WorkItems
                                         .Where(i => i.IterationId == iterationId)

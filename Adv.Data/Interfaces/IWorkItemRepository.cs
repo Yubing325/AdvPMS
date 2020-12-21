@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Adv.Data.Entities;
 
-namespace Adv.BusinessLogic.Interfaces
+namespace Adv.Data.Interfaces
 {
     public interface IWorkItemRepository
     {

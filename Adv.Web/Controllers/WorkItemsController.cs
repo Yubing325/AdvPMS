@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Adv.BusinessLogic.Interfaces;
+using Adv.BusinessLogic.Services;
 using Adv.Data;
 using Adv.Data.Entities;
+using Adv.Data.Interfaces;
 using Adv.Web.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -15,38 +16,26 @@ namespace Adv.Web.Controllers
     [Route("api/iterations/{iterationId}/workitems")]
     public class WorkItemsController : ApiBaseController
     {
+        private readonly WorkItemService _workItemService;
         private readonly IWorkItemRepository _workItemRepository;
         private readonly AdvContext _context;
 
         private readonly IMapper _mapper;
-        public WorkItemsController(IWorkItemRepository workItemRepository, AdvContext context,        
+        public WorkItemsController( WorkItemService workItemService,
+                                    IWorkItemRepository workItemRepository, 
+                                    AdvContext context,        
                                     IMapper mapper)
         {
             _mapper = mapper;
             _context = context;
+            _workItemService = workItemService;
             _workItemRepository = workItemRepository;
         }
 
     [HttpGet("/api/workitems")]
-    public async Task<ActionResult<IEnumerable<WorkItemDto>>> GetAllWorkItems()
+    public async Task<ActionResult> GetAllWorkItems()
     {
-        var workitems = await _workItemRepository.GetWorkItems();
-
-        var query = from i in _context.Iterations
-                    join wi in _context.WorkItems on i.Id equals wi.IterationId
-                    select new WorkItemDto()
-                    {
-                        Id = wi.Id, 
-                        Title = wi.Title, 
-                        Description = wi.Description, 
-                        Iteration = i.Title, 
-                        IterationId = i.Id,
-                        Created=wi.Created,
-                        LastModified=wi.LastModified.Value,
-                    };
-
-        //var result = _mapper.Map<IEnumerable<WorkItemDto>>(workitems);
-        var result = query.ToList();
+        var result = await _workItemService.GetAllWorkItems();
         return Ok(result);
     }
 

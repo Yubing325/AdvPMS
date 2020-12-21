@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Adv.BusinessLogic.Interfaces;
+
 using Adv.Data;
 using Adv.Data.Entities;
+using Adv.Data.Interfaces;
 using Adv.Web.Dtos;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;

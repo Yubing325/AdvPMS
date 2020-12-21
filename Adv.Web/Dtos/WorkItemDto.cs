@@ -20,6 +20,6 @@ namespace Adv.Web.Dtos
 
         public Guid IterationId { get; set; }
         
-        public string Iteration { get; set; }
+        //public string Iteration { get; set; }
     }
 }
