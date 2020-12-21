@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { WorkItem } from '../../_models/workItem';
+import { WorkItem, WorkItemState } from '../../_models/workItem';
 
 @Component({
   selector: 'app-work-item-grid',
@@ -10,6 +10,7 @@ import { WorkItem } from '../../_models/workItem';
 export class WorkItemGridComponent implements OnInit {
 
   workItems: WorkItem[] = [];
+  state = WorkItemState;
 
   constructor(private sprintService: SprintService) { }
 

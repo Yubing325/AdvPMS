@@ -31,6 +31,8 @@ namespace Adv.BusinessLogic.Services
                             Iteration = i.Title, 
                             IterationId = i.Id,
                             Created=wi.Created,
+                            Priority = wi.Priority,
+                            State = wi.State,
                             LastModified=wi.LastModified.Value,
                          };
             return result.ToList();

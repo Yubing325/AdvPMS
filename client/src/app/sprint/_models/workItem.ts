@@ -7,6 +7,7 @@ export interface WorkItem {
     priority: number;
     state: WorkItemState;
     iterationId: string;
+    iteration: string;
 }
 
 

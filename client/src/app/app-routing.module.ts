@@ -3,6 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
+    path:"",
+    loadChildren: ()=> import('./sprint/sprint.module').then(m => m.SprintModule)
+  },
+  {
     path:"sprints",
     loadChildren: ()=> import('./sprint/sprint.module').then(m => m.SprintModule)
   }

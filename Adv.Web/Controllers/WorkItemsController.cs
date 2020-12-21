@@ -81,7 +81,7 @@ namespace Adv.Web.Controllers
     {
         if (id != workItem.Id)
         {
-            return BadRequest();
+            return BadRequest($"workItem id : {workItem.Id} is not matched to {id}");
         }
 
         if (!IterationExists(iterationId))

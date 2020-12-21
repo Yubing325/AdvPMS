@@ -17,8 +17,8 @@
             <td>{{item.created | date : 'short' }}</td>
             <td>{{item.lastModified | date : 'short'}}</td>
             <td>{{item.priority}}</td>
-            <td>{{item.state}}</td>
-            <td>iteration</td>
+            <td>{{state[item.state]}}</td>
+            <td>{{item.iteration}}</td>
         </tr>
     </ng-template>
 </p-table>
