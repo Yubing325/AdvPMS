@@ -26,6 +26,7 @@
     "jspdf": "^2.2.0",
     "jspdf-autotable": "^3.5.13",
     "ngx-bootstrap": "^6.2.0",
+    "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primeng": "^11.0.0",
     "rxjs": "~6.6.0",

@@ -23,4 +23,8 @@ getAllWorkItems(): Observable<WorkItem[]>{
   return this.http.get<WorkItem[]>(this.baseUrl+ '/workitems');
 }
 
+getWorkItemsByIteration(iterationId: string){
+  return this.http.get<WorkItem[]>(this.baseUrl +  '/iterations/' + iterationId + '/workitems');
+}
+
 }
