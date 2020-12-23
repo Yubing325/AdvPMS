@@ -1,10 +1,10 @@
 //modules
-import {CheckboxModule} from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
+import {ToastModule} from 'primeng/toast';
 
 //components
 import { StoryBoardsComponent } from './story-boards/story-boards.component';
@@ -28,7 +28,8 @@ import { WorkItemDetailComponent } from './workItem/work-item-detail/work-item-d
     SprintRoutingModule,
     FormsModule,    
     TableModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule
   ]
 })
 export class SprintModule { }
