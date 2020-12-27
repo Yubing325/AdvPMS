@@ -1,1 +1,11 @@
-<p>work-item-detail works!</p>
+<p-panel header="" [toggleable]="true">
+    <p-header class="p-panel-titlebar">
+        {{workItem.title}}
+    </p-header>
+    {{workItem.description}}
+    <p-footer>
+        created: {{workItem.created | date}} <br>
+        state: {{workItem.state}} <br>
+        priority: {{workItem.priority}}
+    </p-footer>
+</p-panel>

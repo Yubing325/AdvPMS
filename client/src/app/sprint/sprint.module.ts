@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {ButtonModule} from 'primeng/button';
 import {ToastModule} from 'primeng/toast';
+import {PanelModule} from 'primeng/panel';
+import {DragDropModule} from 'primeng/dragdrop';
 
 //components
 import { StoryBoardsComponent } from './story-boards/story-boards.component';
@@ -29,7 +31,9 @@ import { WorkItemDetailComponent } from './workItem/work-item-detail/work-item-d
     FormsModule,    
     TableModule,
     ButtonModule,
-    ToastModule
+    ToastModule,
+    PanelModule,
+    DragDropModule
   ]
 })
 export class SprintModule { }

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { WorkItem } from '../../_models/workItem';
 
 @Component({
   selector: 'app-work-item-detail',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkItemDetailComponent implements OnInit {
 
+  @Input() workItem: WorkItem;
   constructor() { }
 
   ngOnInit(): void {
