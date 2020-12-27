@@ -27,4 +27,8 @@ getWorkItemsByIteration(iterationId: string){
   return this.http.get<WorkItem[]>(this.baseUrl +  '/iterations/' + iterationId + '/workitems');
 }
 
+updateWorkItemState(workItemId:string, state:number){
+  return this.http.put(this.baseUrl + '/workitems/'+ workItemId +'/'+ state, null);
+}
+
 }

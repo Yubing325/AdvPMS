@@ -1,6 +1,6 @@
 <div class="p-grid">
     <!-- New -->
-    <div class="p-col-fixed" style="width: 25%;">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToNew()">
         <div><h3>New</h3></div>
         <ng-container *ngFor="let wi of newWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
@@ -9,14 +9,32 @@
         </ng-container>
     </div>
     <!-- Active -->
-    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="drop()">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToActive()">
         <div><h3>Active</h3></div>
         <ng-container *ngFor="let wi of activeWorkItems">
-            <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+            <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
+                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+            </div>
         </ng-container>
     </div>
-    <div class="p-col-fixed" style="width: 25%;">3</div>
-    <div class="p-col-fixed" style="width: 25%;">4</div>
+     <!-- Resolved -->
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToResolved()">
+        <div><h3>Resolved</h3></div>
+        <ng-container *ngFor="let wi of resolvedWorkItems">
+            <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
+                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+            </div>
+        </ng-container>
+    </div>
+    <!-- Closed -->
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToClosed()">
+        <div><h3>Closed</h3></div>
+        <ng-container *ngFor="let wi of closedWorkItems">
+            <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
+                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+            </div>
+        </ng-container>
+    </div>
 </div>
 
 <p-toast position="top-right"></p-toast>

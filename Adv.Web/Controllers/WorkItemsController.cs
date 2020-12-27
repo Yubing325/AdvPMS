@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Adv.BusinessLogic.Services;
 using Adv.Data;
 using Adv.Data.Entities;
+using Adv.Data.Enums;
 using Adv.Data.Interfaces;
 using Adv.Web.Dtos;
 using AutoMapper;
@@ -108,6 +109,38 @@ namespace Adv.Web.Controllers
         }
 
         return NoContent();
+    }
+
+    [HttpPut("/api/workitems/{id}/{state}")]
+    public async Task<IActionResult> UpdateWorkItemState(Guid id, int state)
+    {
+        var workItem = await _workItemRepository.GetWorkItem(id);
+
+        if(workItem == null) return NotFound(nameof(UpdateWorkItemState) 
+                                                + $"Workitem {id} is not found in our system");
+
+        workItem.State = (WorkItemState)state;
+
+        _context.Entry(workItem).State = EntityState.Modified;
+
+         try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!WorkItemExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return NoContent();
+        
     }
 
 
