@@ -1,6 +1,6 @@
 <div class="p-grid">
     <!-- New -->
-    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToNew()">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="drop(0)">
         <div><h3>New</h3></div>
         <ng-container *ngFor="let wi of newWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
@@ -9,7 +9,7 @@
         </ng-container>
     </div>
     <!-- Active -->
-    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToActive()">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="drop(1)">
         <div><h3>Active</h3></div>
         <ng-container *ngFor="let wi of activeWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
@@ -18,7 +18,7 @@
         </ng-container>
     </div>
      <!-- Resolved -->
-    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToResolved()">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="drop(2)">
         <div><h3>Resolved</h3></div>
         <ng-container *ngFor="let wi of resolvedWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
@@ -27,7 +27,7 @@
         </ng-container>
     </div>
     <!-- Closed -->
-    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="dropToClosed()">
+    <div class="p-col-fixed" style="width: 25%;" pDroppable="pnl" (onDrop)="drop(3)">
         <div><h3>Closed</h3></div>
         <ng-container *ngFor="let wi of closedWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">

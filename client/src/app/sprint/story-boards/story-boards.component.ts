@@ -50,42 +50,29 @@ export class StoryBoardsComponent implements OnInit {
     this.draggedItem = workItem;
   }
 
-  dropToNew():void{
-    this.newWorkItems.push(this.draggedItem);
+  drop(state:number){
+    this.alterDropColumns(state);
     this.alterDragColumns(this.draggedItem);
-    //call api to update
-    this.updateWIState(0); // 0 is new state
+    this.updateWIState(state); 
     this.draggedItem = null;
   }
 
-  dropToActive():void{
-    this.activeWorkItems.push(this.draggedItem);        
-    this.alterDragColumns(this.draggedItem);
-    //call api to update
-    this.updateWIState(1); // 1 is active state
-    this.draggedItem = null;    
-    
+  private alterDropColumns(state: number) {
+    switch (state) {
+      case 0: //dropped to "New"
+        this.newWorkItems.push(this.draggedItem);
+        break;
+      case 1: //dropped to "Active" 
+        this.activeWorkItems.push(this.draggedItem);
+        break;
+      case 2: //dropped to "Resolved"
+        this.resolvedWorkItems.push(this.draggedItem);
+        break;
+      case 3: //dropped to "Closed" 
+        this.closedWorkItems.push(this.draggedItem);
+        break;
+    }
   }
-
-  dropToResolved():void{
-    this.resolvedWorkItems.push(this.draggedItem);        
-    this.alterDragColumns(this.draggedItem);
-    //call api to update
-    this.updateWIState(2); //2 is resolved state
-    this.draggedItem = null;    
-    
-  }
-
-  dropToClosed():void{
-    this.closedWorkItems.push(this.draggedItem);        
-    this.alterDragColumns(this.draggedItem);
-    //call api to update
-    this.updateWIState(3); // 3 is closed state
-    this.draggedItem = null;    
-    
-  }
-
-  
 
   private updateWIState(state: number) {
     this.sprintService.updateWorkItemState(this.draggedItem.id, state).subscribe(
@@ -96,9 +83,10 @@ export class StoryBoardsComponent implements OnInit {
         this.messageService.add({ severity: 'error', summary: error.statusText, detail: error.message });
         console.error(error);
       }
-
     );
   }
+
+  
 
   private alterDragColumns(draggedItem: WorkItem):void{
     switch(draggedItem.state){
