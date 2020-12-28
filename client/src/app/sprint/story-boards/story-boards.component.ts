@@ -87,8 +87,6 @@ export class StoryBoardsComponent implements OnInit {
     );
   }
 
-  
-
   private alterDragColumns(draggedItem: WorkItem):void{
     switch(draggedItem.state){
       case 0: //dragged from "New" 
@@ -111,6 +109,11 @@ export class StoryBoardsComponent implements OnInit {
 
   itemAdded(event:any){
     this.refreshWorkItems(this.iterationId);
+  }
+
+  switchIteration(id: any){
+    this.iterationId = id;
+    this.refreshWorkItems(id);
   }
 
 }

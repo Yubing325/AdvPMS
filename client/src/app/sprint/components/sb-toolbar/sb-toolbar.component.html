@@ -4,7 +4,7 @@
     </ng-template>
 
     <ng-template pTemplate="right">        
-        <p-dropdown [options]="iterations" [(ngModel)]="selectedIteration" optionLabel="name"></p-dropdown>
+        <p-dropdown [options]="iterations" [(ngModel)]="selectedIteration" optionLabel="title" (onChange)="selectIteration(selectedIteration)"></p-dropdown>
     </ng-template>
 </p-toolbar>
 
@@ -25,3 +25,4 @@
         <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
     </ng-template>
 </p-dialog>
+
