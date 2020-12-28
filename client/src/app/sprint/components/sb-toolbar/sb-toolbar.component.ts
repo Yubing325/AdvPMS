@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { MenuItem } from 'primeng/api';
+import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
+
+import { MenuItem, MessageService } from 'primeng/api';
+import { SprintService } from 'src/app/_services/sprint.service';
 import { Iteration } from '../../_models/iteration';
 import { WorkItem } from '../../_models/workItem';
 
@@ -16,8 +18,10 @@ export class SbToolbarComponent implements OnInit {
   workItem: WorkItem;
   display:boolean;
   submitted: boolean;
+  @Input() iterationId: string;
+  @Output() newItem:EventEmitter<WorkItem> = new EventEmitter<WorkItem>();
 
-  constructor() { }
+  constructor(private sprintService: SprintService,private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.items = [
@@ -45,7 +49,7 @@ export class SbToolbarComponent implements OnInit {
   }
 
   add(){
-
+    
   }
 
   openNew(){
@@ -58,8 +62,17 @@ export class SbToolbarComponent implements OnInit {
     this.display = false;
   }
 
-  save(){
-    
+  save(){    
+    this.sprintService.addWorkItem(this.iterationId, this.workItem).subscribe(
+      result=>{        
+        this.display = false;
+        this.newItem.emit(result);
+      },
+      error =>{
+        this.messageService.add({ severity: 'error', summary: error.statusText, detail: error.message });
+        console.error(error);
+      }
+    );
   }
 
 }

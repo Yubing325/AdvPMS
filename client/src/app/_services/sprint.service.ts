@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AddWorkItemDto } from '../sprint/_models/addWorkItemDto';
 import { Iteration } from '../sprint/_models/iteration';
 import { WorkItem } from '../sprint/_models/workItem';
 
@@ -29,6 +30,10 @@ getWorkItemsByIteration(iterationId: string){
 
 updateWorkItemState(workItemId:string, state:number){
   return this.http.put(this.baseUrl + '/workitems/'+ workItemId +'/'+ state, null);
+}
+
+addWorkItem(iterationId: string, workItem:AddWorkItemDto): Observable<WorkItem>{
+  return this.http.post<WorkItem>(this.baseUrl+"/iterations/"+ iterationId +"/workitems", workItem);
 }
 
 }

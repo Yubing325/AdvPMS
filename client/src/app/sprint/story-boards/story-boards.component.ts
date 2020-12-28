@@ -109,4 +109,8 @@ export class StoryBoardsComponent implements OnInit {
     }
   }
 
+  itemAdded(event:any){
+    this.refreshWorkItems(this.iterationId);
+  }
+
 }
