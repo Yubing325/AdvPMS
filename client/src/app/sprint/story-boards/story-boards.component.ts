@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { WorkItem } from '../_models/workItem';
-import {MessageService} from 'primeng/api';
+import { MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-story-boards',
@@ -25,8 +25,7 @@ export class StoryBoardsComponent implements OnInit {
 
   ngOnInit(): void {
     this.iterationId = this.route.snapshot.paramMap.get('id');
-    this.refreshWorkItems(this.iterationId);    
-
+    this.refreshWorkItems(this.iterationId); 
   }
 
   private refreshWorkItems(iterationId: string) {
@@ -71,6 +70,8 @@ export class StoryBoardsComponent implements OnInit {
       case 3: //dropped to "Closed" 
         this.closedWorkItems.push(this.draggedItem);
         break;
+      default:
+        this.messageService.add({severity:'error', summary: "invalid state", detail: "drop work item state is invalid"});
     }
   }
 
@@ -104,7 +105,7 @@ export class StoryBoardsComponent implements OnInit {
         break;
     
       default:
-        this.messageService.add({severity:'error', summary: "invalid state", detail: "work item state is invalid"});
+        this.messageService.add({severity:'error', summary: "invalid state", detail: "drag work item state is invalid"});
     }
   }
 
