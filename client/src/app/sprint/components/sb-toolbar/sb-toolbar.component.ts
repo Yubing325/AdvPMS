@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, Output,EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import {  Router } from '@angular/router';
 
 import { MenuItem, MessageService } from 'primeng/api';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { Iteration } from '../../_models/iteration';
 import { WorkItem } from '../../_models/workItem';
+
+
 
 @Component({
   selector: 'app-sb-toolbar',
@@ -38,6 +40,7 @@ export class SbToolbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false; //disable route to allow same url rediercting
     this.items = [
       {label: 'Add', icon: 'pi pi-refresh', command: () => {
           this.add();
@@ -67,9 +70,7 @@ export class SbToolbarComponent implements OnInit {
   }
 
   selectIteration(iteration: Iteration){    
-    this.router.navigate(["/sprints/story-boards/", iteration.id]).then(() => {
-      window.location.reload();
-    });
+    this.router.navigate(["/sprints/story-boards/", iteration.id]);
   }
 
   openNew(){
