@@ -20,10 +20,10 @@ export class SbToolbarComponent implements OnInit {
   display:boolean;
   submitted: boolean;
   @Input() iterationId: string;
-  @Output() newItem:EventEmitter<WorkItem> = new EventEmitter<WorkItem>();
-  @Output() selectIterationId = new EventEmitter<string>();
+  @Output() newItem:EventEmitter<WorkItem> = new EventEmitter<WorkItem>();  
 
-  constructor(private sprintService: SprintService,private messageService: MessageService) { 
+  constructor(private sprintService: SprintService,private messageService: MessageService,
+              private router: Router) { 
     this.sprintService.getIterations().subscribe
     (
       (results:Iteration[]) => {
@@ -66,8 +66,10 @@ export class SbToolbarComponent implements OnInit {
     
   }
 
-  selectIteration(iteration: Iteration){
-    this.selectIterationId.emit(iteration.id);
+  selectIteration(iteration: Iteration){    
+    this.router.navigate(["/sprints/story-boards/", iteration.id]).then(() => {
+      window.location.reload();
+    });
   }
 
   openNew(){

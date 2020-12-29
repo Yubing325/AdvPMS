@@ -111,9 +111,4 @@ export class StoryBoardsComponent implements OnInit {
     this.refreshWorkItems(this.iterationId);
   }
 
-  switchIteration(id: any){
-    this.iterationId = id;
-    this.refreshWorkItems(id);
-  }
-
 }
