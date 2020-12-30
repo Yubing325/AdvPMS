@@ -1,1 +1,17 @@
-<p>work-item-edit works!</p>
+
+    <div class="p-field">
+        <label for="title">Title</label>
+        <br>
+        <input type="text" pInputText id="title" [(ngModel)]="workItem.title" required autofocus >
+        <small class="p-invalid" *ngIf="submitted&&workItem.title" >Title is required.</small>
+    </div>
+    <div class="p-field">
+        <label for="des">Description</label>
+        <br>
+        <textarea id="des" pInputTextarea  rows="3" cols="35" [(ngModel)]="workItem.description" ></textarea>
+    </div>
+    <div>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
+    </div>
+   

@@ -36,4 +36,8 @@ addWorkItem(iterationId: string, workItem:AddWorkItemDto): Observable<WorkItem>{
   return this.http.post<WorkItem>(this.baseUrl+"/iterations/"+ iterationId +"/workitems", workItem);
 }
 
+updateWorkItem(iterationId: string, workItem:WorkItem){
+  return this.http.put(this.baseUrl+"/iterations/"+ iterationId +"/workitems/"+workItem.id, workItem);
+}
+
 }

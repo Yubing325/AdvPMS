@@ -9,20 +9,6 @@
 </p-toolbar>
 
 <p-dialog header="Add New Item" [(visible)]="display" [style]="{width: '450px'}" [modal]="true">
-    <div class="p-field">
-        <label for="title">Title</label>
-        <br>
-        <input type="text" pInputText id="title" [(ngModel)]="workItem.title" required autofocus >
-        <small class="p-invalid" *ngIf="submitted&&workItem.title" >Title is required.</small>
-    </div>
-    <div class="p-field">
-        <label for="des">Description</label>
-        <br>
-        <textarea id="des" pInputTextarea  rows="3" cols="35" [(ngModel)]="workItem.description" ></textarea>
-    </div>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="save()"></button>
-    </ng-template>
+    <app-work-item-edit [iterationId]="iterationId" [workItem]="workItem" (newItem)="itemAdded()"></app-work-item-edit>
 </p-dialog>
 

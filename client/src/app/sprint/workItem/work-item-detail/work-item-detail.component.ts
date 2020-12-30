@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,  Input, OnInit, Output } from '@angular/core';
 import { WorkItem } from '../../_models/workItem';
 
 @Component({
@@ -8,10 +8,19 @@ import { WorkItem } from '../../_models/workItem';
 })
 export class WorkItemDetailComponent implements OnInit {
 
-  @Input() workItem: WorkItem;
+  @Input() workItem: WorkItem;  
+  display: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  edit(){
+    this.display = true;
+  }
+
+  itemEdited(event:any){
+    this.display = false;
   }
 
 }

@@ -32,8 +32,7 @@ export class IterationGridComponent implements OnInit {
     );   
   }
 
-  onRowSelect(event: any){
-    console.log(event);
+  onRowSelect(event: any){    
     this.router.navigate(['/sprints/story-boards', event.data.id]);
   }
 

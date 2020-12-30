@@ -19,8 +19,7 @@ export class SbToolbarComponent implements OnInit {
   iterations: Iteration[] = [];
   selectedIteration: Iteration;
   workItem: WorkItem;
-  display:boolean;
-  submitted: boolean;
+  display:boolean;  
   @Input() iterationId: string;
   @Output() newItem:EventEmitter<WorkItem> = new EventEmitter<WorkItem>();  
 
@@ -74,26 +73,12 @@ export class SbToolbarComponent implements OnInit {
   }
 
   openNew(){
-
-    this.submitted = false;
     this.display=true;
   }
 
-  hideDialog(){
+  itemAdded(){
     this.display = false;
-  }
-
-  save(){    
-    this.sprintService.addWorkItem(this.iterationId, this.workItem).subscribe(
-      result=>{        
-        this.display = false;
-        this.newItem.emit(result);
-      },
-      error =>{
-        this.messageService.add({ severity: 'error', summary: error.statusText, detail: error.message });
-        console.error(error);
-      }
-    );
-  }
+    this.newItem.emit(this.workItem);
+  }  
 
 }

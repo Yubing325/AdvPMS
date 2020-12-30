@@ -19,6 +19,7 @@ export class StoryBoardsComponent implements OnInit {
   closedWorkItems: WorkItem[] = [];
   draggedItem: WorkItem;
   iterationId: string;
+  display: boolean = false;
 
   constructor(private sprintService: SprintService, private route: ActivatedRoute,
               private messageService: MessageService) { }
@@ -30,8 +31,7 @@ export class StoryBoardsComponent implements OnInit {
 
   private refreshWorkItems(iterationId: string) {
     this.sprintService.getWorkItemsByIteration(iterationId).subscribe(
-      (result: WorkItem[]) => {
-        console.log(result);
+      (result: WorkItem[]) => {        
         this.workItems = result;
         this.newWorkItems = this.workItems.filter(t => t.state == 0);
         this.activeWorkItems = this.workItems.filter(t => t.state == 1);
@@ -109,6 +109,10 @@ export class StoryBoardsComponent implements OnInit {
 
   itemAdded(event:any){
     this.refreshWorkItems(this.iterationId);
+  }
+
+  edit(){
+    this.display = true;
   }
 
 }

@@ -3,9 +3,14 @@
         {{workItem.title}}
     </p-header>
     {{workItem.description}}
+    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="edit()"></button>
     <p-footer>
         created: {{workItem.created | date}} <br>
         state: {{workItem.state}} <br>
         priority: {{workItem.priority}}
     </p-footer>
 </p-panel>
+
+<p-dialog header="Edit Item" [(visible)]="display" [style]="{width: '450px'}" [modal]="true">
+    <app-work-item-edit [iterationId]="workItem.iterationId" [workItem]="workItem" (editItem)="itemEdited($event)" [isEdit]="true"></app-work-item-edit>
+</p-dialog>

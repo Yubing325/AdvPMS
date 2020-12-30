@@ -1,7 +1,4 @@
-
-
 <app-sb-toolbar [iterationId]="iterationId" (newItem)="itemAdded($event)"></app-sb-toolbar>
-
 
 <div class="p-grid">
     <!-- New -->
@@ -9,7 +6,7 @@
         <div><h3>New</h3></div>
         <ng-container *ngFor="let wi of newWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
-                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+                <app-work-item-detail [workItem]="wi" ></app-work-item-detail>
             </div>
         </ng-container>
     </div>
@@ -18,7 +15,7 @@
         <div><h3>Active</h3></div>
         <ng-container *ngFor="let wi of activeWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
-                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+                <app-work-item-detail [workItem]="wi" ></app-work-item-detail>
             </div>
         </ng-container>
     </div>
@@ -27,7 +24,7 @@
         <div><h3>Resolved</h3></div>
         <ng-container *ngFor="let wi of resolvedWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
-                <app-work-item-detail [workItem]="wi"></app-work-item-detail>
+                <app-work-item-detail [workItem]="wi" ></app-work-item-detail>
             </div>
         </ng-container>
     </div>
@@ -41,5 +38,6 @@
         </ng-container>
     </div>
 </div>
+
 
 <p-toast position="top-right"></p-toast>
