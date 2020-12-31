@@ -164,6 +164,21 @@ namespace Adv.Web.Controllers
         return NoContent();
     }
 
+    [HttpDelete("/api/workitems/{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var workItem = await _context.WorkItems.FindAsync(id);
+        if (workItem == null)
+        {
+            return NotFound();
+        }
+
+        _context.WorkItems.Remove(workItem);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
 
 
     private bool WorkItemExists(Guid id)

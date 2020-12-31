@@ -115,4 +115,8 @@ export class StoryBoardsComponent implements OnInit {
     this.display = true;
   }
 
+  deleted(){
+    this.refreshWorkItems(this.iterationId);
+  }
+
 }

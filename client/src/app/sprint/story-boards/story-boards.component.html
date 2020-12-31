@@ -6,7 +6,7 @@
         <div><h3>New</h3></div>
         <ng-container *ngFor="let wi of newWorkItems">
             <div pDraggable="pnl"  dragHandle=".p-panel-titlebar" (onDragStart)="dragStart(wi)">
-                <app-work-item-detail [workItem]="wi" ></app-work-item-detail>
+                <app-work-item-detail [workItem]="wi" (deleted)="deleted()" ></app-work-item-detail>
             </div>
         </ng-container>
     </div>

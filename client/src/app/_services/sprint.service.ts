@@ -40,4 +40,8 @@ updateWorkItem(iterationId: string, workItem:WorkItem){
   return this.http.put(this.baseUrl+"/iterations/"+ iterationId +"/workitems/"+workItem.id, workItem);
 }
 
+deleteWorkItem(id:string){
+  return this.http.delete(this.baseUrl + "/workitems/"+id);
+}
+
 }
