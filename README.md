@@ -1,6 +1,8 @@
 # AdvPMS
 Self built project management system
 
+## Demo:
+https://advpms.azurewebsites.net/
 
 ### API endpoints developped so far (till Dec 29th.2020):
 
