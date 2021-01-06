@@ -29,9 +29,14 @@ namespace Adv.Web
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddControllers();
             services.AddCors();
-            services.AddDbContext<AdvContext>(options => options.UseSqlite(
-                _configuration.GetConnectionString("DefaultConnection")
-            ));
+            // services.AddDbContext<AdvContext>(options => options.UseSqlite(
+            //     _configuration.GetConnectionString("DefaultConnection")
+            // ));
+
+            services.AddDbContext<AdvContext>(options =>
+                            options.UseSqlServer(_configuration.GetConnectionString("MyDbConnection"),
+                            b =>b.MigrationsAssembly("Adv.Data")
+                            ));
             
             services.AddSwaggerGen(c =>
             {
