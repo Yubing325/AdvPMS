@@ -15,9 +15,11 @@ namespace Adv.Web
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            _configuration = configuration;            
+            _env = env;
+            _configuration = configuration;
         }
 
 
@@ -29,15 +31,19 @@ namespace Adv.Web
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddControllers();
             services.AddCors();
-            services.AddDbContext<AdvContext>(options => options.UseSqlite(
+
+            if (_env.IsDevelopment())
+            {
+               services.AddDbContext<AdvContext>(options => options.UseSqlite(
                 _configuration.GetConnectionString("DefaultConnection")
-            ));
+               ));
+            }
 
             services.AddDbContext<AdvContext>(options =>
                             options.UseSqlServer(_configuration.GetConnectionString("MyDbConnection"),
-                            b =>b.MigrationsAssembly("Adv.Data")
+                            b => b.MigrationsAssembly("Adv.Data")
                             ));
-            
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Adv.Web", Version = "v1" });
@@ -57,8 +63,9 @@ namespace Adv.Web
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
-            app.UseCors(policy => {
+
+            app.UseCors(policy =>
+            {
                 policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
             });
 
