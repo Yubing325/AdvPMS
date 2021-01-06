@@ -1,6 +1,7 @@
 # AdvPMS
-Self built project management system
 
+[![Build status](https://robinliang.visualstudio.com/Adventurer/_apis/build/status/Adventurer-ASP.NET%20Core-CI)](https://robinliang.visualstudio.com/Adventurer/_build/latest?definitionId=4)
+Self built project management system
 ## Demo:
 https://advpms.azurewebsites.net/
 
