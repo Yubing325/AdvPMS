@@ -1,17 +1,4 @@
-<!-- <ng-container *ngIf="iterations">
-    <div class="card" *ngFor="let iteration of iterations">
-        
-        <div class="card-body">
-            <div class="card-title">
-                {{iteration.title}}
-            </div>
-            <div class="card-text">
-                created at {{iteration.created |date }}
-            </div>
-            <a href="#" class="btn btn-primary">Button</a>
-        </div>
-    </div>
-</ng-container> -->
+<button pButton type="button" label="Add" (click)="openDialog()"></button>
 
 
 <p-table [value]="iterations" selectionMode="single" styleClass="p-datatable-striped" (onRowSelect)="onRowSelect($event)">
@@ -30,5 +17,12 @@
     </ng-template>
 </p-table>
 
+<p-dialog header="Add a new iteration" [(visible)]="display">
+    <input type="text" pInputText [(ngModel)]="title"/>
+    <div>
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addIteraton()"></button>
+    </div>
+</p-dialog>
 
 <p-toast position="top-right"></p-toast>

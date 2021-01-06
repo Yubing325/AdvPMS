@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { AddIterationDto } from '../sprint/_models/addIterationDto';
 import { AddWorkItemDto } from '../sprint/_models/addWorkItemDto';
 import { Iteration } from '../sprint/_models/iteration';
 import { WorkItem } from '../sprint/_models/workItem';
@@ -15,6 +16,10 @@ baseUrl: string = environment.apiEndpoint;
 
 
 constructor(private http: HttpClient) { }
+
+addIteration(model: AddIterationDto):Observable<Iteration> {
+  return this.http.post<Iteration>(this.baseUrl + '/iterations', model);
+}
 
 getIterations() : Observable<Iteration[]>{
   return this.http.get<Iteration[]>(this.baseUrl + '/iterations');
