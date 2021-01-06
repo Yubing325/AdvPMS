@@ -21,6 +21,10 @@ addIteration(model: AddIterationDto):Observable<Iteration> {
   return this.http.post<Iteration>(this.baseUrl + '/iterations', model);
 }
 
+deleteIteration(id: string){
+  return this.http.delete(this.baseUrl + '/iterations/'+ id);
+}
+
 getIterations() : Observable<Iteration[]>{
   return this.http.get<Iteration[]>(this.baseUrl + '/iterations');
 }

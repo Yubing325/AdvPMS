@@ -59,6 +59,7 @@ export class IterationGridComponent implements OnInit {
         result => {
           this.messageService.add({severity:'success', summary:'Iteration Added', detail:'New iteration added successfully!'});
           this.display = false;
+          this.refreshIterations();
         },
         error => {
           this.messageService.add({severity:'error', summary: error.statusText, detail: error.message });
@@ -66,5 +67,18 @@ export class IterationGridComponent implements OnInit {
         }
       );
     }
+  }
+
+  deleteIteration(id: string){
+    this.sprintService.deleteIteration(id).subscribe(
+      result => {
+        this.messageService.add({severity:'success', summary:'Iteration Deleted', detail:'Iteration deleted successfully!'});        
+        this.refreshIterations();
+      },
+      error => {
+        this.messageService.add({severity:'error', summary: error.statusText, detail: error.message });
+        console.error(error);
+      }
+    );
   }
 }
