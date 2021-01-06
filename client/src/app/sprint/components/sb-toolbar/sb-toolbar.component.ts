@@ -51,16 +51,20 @@ export class SbToolbarComponent implements OnInit {
       {separator:true},
       {label: 'Setup', icon: 'pi pi-cog', routerLink: ['/setup']}
     ];
+    this.initWorkItem();
+  }
+
+  private initWorkItem() {
     this.workItem = {
-      title:"",
-      description:"",
-      created:null,
-      id:null,
+      title: "",
+      description: "",
+      created: null,
+      id: null,
       iteration: null,
-      iterationId:null,
-      lastModified:null,
-      priority:0,
-      state:0 
+      iterationId: null,
+      lastModified: null,
+      priority: 0,
+      state: 0
     };
   }
 
@@ -74,10 +78,11 @@ export class SbToolbarComponent implements OnInit {
 
   openNew(){
     this.display=true;
+    this.initWorkItem();
   }
 
   itemAdded(){
-    this.display = false;
+    this.display = false;    
     this.newItem.emit(this.workItem);
   }  
 
