@@ -99,8 +99,9 @@ namespace Adv.Web.Controllers
                 return NotFound();
             }
 
-            _context.Iterations.Remove(iteration);
-            await _context.SaveChangesAsync();
+            _iterationRepository.DeleteIterationAsync(iteration);
+            
+            await _iterationRepository.SaveAllAsync();
 
             return NoContent();
         }

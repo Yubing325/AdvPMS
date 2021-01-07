@@ -15,6 +15,6 @@ namespace Adv.Data.Interfaces
 
         void Update(Iteration model);
 
-        Task DeleteIterationAsync(Guid id);
+        void DeleteIterationAsync(Iteration iteration);
     }
 }

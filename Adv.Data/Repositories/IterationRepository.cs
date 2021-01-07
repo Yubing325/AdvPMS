@@ -39,11 +39,9 @@ namespace Adv.Data.Repositories
             _context.Entry(model).State = EntityState.Modified;
         }
 
-        public async Task DeleteIterationAsync(Guid id)
+        public void DeleteIterationAsync(Iteration iteration)
         {
-            var model = await _context.Iterations.FindAsync(id);
-            
-             _context.Entry(model).State = EntityState.Deleted;
+              _context.Iterations.Remove(iteration);             
         }
     }
 }
