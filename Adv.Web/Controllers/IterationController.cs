@@ -15,13 +15,11 @@ namespace Adv.Web.Controllers
 {
     public class IterationsController : ApiBaseController
     {
-        private readonly IIterationRepository _iterationRepository;
-        private readonly AdvContext _context;
+        private readonly IIterationRepository _iterationRepository;        
         private readonly IMapper _mapper;
-        public IterationsController(IIterationRepository iterationRepository, AdvContext context, IMapper mapper)
+        public IterationsController(IIterationRepository iterationRepository, IMapper mapper)
         {
-            _mapper = mapper;
-            _context = context;
+            _mapper = mapper;            
             _iterationRepository = iterationRepository;
         }
 
@@ -38,7 +36,7 @@ namespace Adv.Web.Controllers
         [HttpGet("{id}", Name = "GetIteration")]
         public async Task<ActionResult<IterationDto>> GetIteration(Guid id)
         {
-            var iteration = await _context.Iterations.FindAsync(id);
+            var iteration = await _iterationRepository.GetIterationByIdAsync(id);
 
             if (iteration == null) return NotFound();
 
@@ -63,37 +61,13 @@ namespace Adv.Web.Controllers
 
             return BadRequest();
         }
-
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Iteration>> UpdateIteration(Guid id, Iteration model)
-        {
-            if (id != model.Id) return BadRequest();
-
-            _context.Entry(model).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!IterationExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
+        
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIteration(Guid id)
         {
-            var iteration = await _context.Iterations.FindAsync(id);
+            var iteration = await _iterationRepository.GetIterationByIdAsync(id);
+            
             if (iteration == null)
             {
                 return NotFound();
@@ -108,7 +82,7 @@ namespace Adv.Web.Controllers
 
         private bool IterationExists(Guid id)
         {
-            return _context.Iterations.Any(e => e.Id == id);
+            return _iterationRepository.IterationExists(id);
         }
 
     }

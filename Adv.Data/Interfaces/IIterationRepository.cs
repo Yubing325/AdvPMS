@@ -9,6 +9,8 @@ namespace Adv.Data.Interfaces
     {
         Task<IEnumerable<Iteration>> GetIterationsAsync();
 
+        Task<Iteration> GetIterationByIdAsync(Guid id);
+
         void CreateIteration(Iteration model);
 
         Task<bool> SaveAllAsync();
@@ -16,5 +18,7 @@ namespace Adv.Data.Interfaces
         void Update(Iteration model);
 
         void DeleteIterationAsync(Iteration iteration);
+
+        bool IterationExists(Guid id);
     }
 }

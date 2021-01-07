@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Adv.Data;
 using Adv.Data.Entities;
@@ -42,6 +43,18 @@ namespace Adv.Data.Repositories
         public void DeleteIterationAsync(Iteration iteration)
         {
               _context.Iterations.Remove(iteration);             
+        }
+
+        public async Task<Iteration> GetIterationByIdAsync(Guid id)
+        {
+            var iteration = await _context.Iterations.FindAsync(id);
+
+            return iteration;
+        }
+
+        public bool IterationExists(Guid id)
+        {
+            return _context.Iterations.Any(e => e.Id == id);
         }
     }
 }
