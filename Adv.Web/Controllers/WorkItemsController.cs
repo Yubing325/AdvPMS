@@ -19,11 +19,13 @@ namespace Adv.Web.Controllers
     {
         private readonly WorkItemService _workItemService;
         private readonly IWorkItemRepository _workItemRepository;
+        private readonly IIterationRepository _iterationRepository;
         private readonly AdvContext _context;
 
         private readonly IMapper _mapper;
         public WorkItemsController( WorkItemService workItemService,
-                                    IWorkItemRepository workItemRepository, 
+                                    IWorkItemRepository workItemRepository,
+                                    IIterationRepository iterationRepository, 
                                     AdvContext context,        
                                     IMapper mapper)
         {
@@ -31,6 +33,7 @@ namespace Adv.Web.Controllers
             _context = context;
             _workItemService = workItemService;
             _workItemRepository = workItemRepository;
+            _iterationRepository = iterationRepository;
         }
 
     [HttpGet("/api/workitems")]
@@ -78,23 +81,24 @@ namespace Adv.Web.Controllers
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateWorkItem(Guid iterationId, Guid id, WorkItem workItem)
+    public async Task<IActionResult> UpdateWorkItem(Guid iterationId, Guid id, WorkItemUpdateDto workItem)
     {
-        if (id != workItem.Id)
-        {
-            return BadRequest($"workItem id : {workItem.Id} is not matched to {id}");
-        }
+        if (id != workItem.Id) return BadRequest($"workItem id : {workItem.Id} is not matched to {id}");  
 
-        if (!IterationExists(iterationId))
-        {
-            return NotFound("Iteration Not Found");
-        }
+        if (!_iterationRepository.IterationExists(iterationId)) return NotFound("Iteration Not Found");
+    
 
-        _context.Entry(workItem).State = EntityState.Modified;
+        var workItemFromRepo = await _workItemRepository.GetWorkItem(id);
+
+        if (workItemFromRepo == null) return NotFound("WorkItem Not Found"); 
+
+        _mapper.Map(workItem, workItemFromRepo);
+
+        _workItemRepository.UpdateWorkItem(workItemFromRepo);
 
         try
         {
-            await _context.SaveChangesAsync();
+            await _workItemRepository.SaveAllAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -123,9 +127,9 @@ namespace Adv.Web.Controllers
 
         _context.Entry(workItem).State = EntityState.Modified;
 
-         try
+        try
         {
-            await _context.SaveChangesAsync();
+            await _workItemRepository.SaveAllAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
@@ -147,19 +151,21 @@ namespace Adv.Web.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteWorkItem(Guid iterationId, Guid id)
     {
-        if (!IterationExists(iterationId))
+        if (!_iterationRepository.IterationExists(iterationId))
         {
             return NotFound("Iteration Not Found");
         }
 
-        var workItem = await _context.WorkItems.FindAsync(id);
+        var workItem = await _workItemRepository.GetWorkItem(id);
+        
         if (workItem == null)
         {
             return NotFound();
         }
 
-        _context.WorkItems.Remove(workItem);
-        await _context.SaveChangesAsync();
+       _workItemRepository.DeleteWorkItem(workItem);
+        
+        await _workItemRepository.SaveAllAsync();
 
         return NoContent();
     }
@@ -167,33 +173,24 @@ namespace Adv.Web.Controllers
     [HttpDelete("/api/workitems/{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var workItem = await _context.WorkItems.FindAsync(id);
+        var workItem = await _workItemRepository.GetWorkItem(id);
+        
         if (workItem == null)
         {
-            return NotFound();
+            return NotFound("Workitem not found");
         }
 
-        _context.WorkItems.Remove(workItem);
-        await _context.SaveChangesAsync();
+        _workItemRepository.DeleteWorkItem(workItem);
+        
+        await _workItemRepository.SaveAllAsync();
 
         return NoContent();
     }
 
-
-
     private bool WorkItemExists(Guid id)
     {
-        return _context.WorkItems.Any(e => e.Id == id);
+        return _workItemRepository.WorkItemExists(id);
     }
-
-    private bool IterationExists(Guid iterationId)
-    {
-        if (iterationId == Guid.Empty)
-        {
-            throw new ArgumentNullException(nameof(iterationId));
-        }
-
-        return _context.Iterations.Any(e => e.Id == iterationId);
-    }
-}
+   
+ }
 }

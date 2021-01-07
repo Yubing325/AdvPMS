@@ -29,6 +29,7 @@ namespace Adv.Data.Repositories
             _context.WorkItems.Add(workItem);
         }
 
+
         public async Task<WorkItem> GetWorkItem(Guid id)
         {
             return await _context.WorkItems.FindAsync(id);
@@ -52,6 +53,19 @@ namespace Adv.Data.Repositories
             return await _context.SaveChangesAsync() > 0 ;
         }
 
-        
+        public void UpdateWorkItem(WorkItem workItem)
+        {
+            // leave blank
+        }
+
+        public void DeleteWorkItem(WorkItem workItem)
+        {
+             _context.WorkItems.Remove(workItem);
+        }
+
+        public bool WorkItemExists(Guid id)
+        {
+            return _context.WorkItems.Any(e => e.Id == id);
+        }
     }
 }

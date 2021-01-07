@@ -17,6 +17,9 @@ namespace Adv.Web.Helpers
                 .ForMember(dest => dest.Created, opt => opt.MapFrom(src => DateTime.UtcNow))
                 .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.UtcNow));
             CreateMap<WorkItem, WorkItemDto>();
+            CreateMap<WorkItemUpdateDto, WorkItem>()
+                .ForMember(dest => dest.Created, opt => opt.MapFrom(src => DateTime.UtcNow))
+                .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.UtcNow));
         }
     }
 }

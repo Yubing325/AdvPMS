@@ -15,6 +15,12 @@ namespace Adv.Data.Interfaces
         Task<WorkItem> GetWorkItem(Guid id);
 
         Task<bool> SaveAllAsync();
+
+        void UpdateWorkItem(WorkItem workItem);
+
+        void DeleteWorkItem(WorkItem workItem);
+
+        bool WorkItemExists(Guid id);
         
     }
 }
