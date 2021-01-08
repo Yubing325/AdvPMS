@@ -3,6 +3,7 @@ import { MessageService } from 'primeng/api';
 import { error } from 'protractor';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { WorkItem } from '../../_models/workItem';
+import { WorkItemState } from '../../_models/WorkItemState';
 
 @Component({
   selector: 'app-work-item-detail',
@@ -14,6 +15,8 @@ export class WorkItemDetailComponent implements OnInit {
   @Input() workItem: WorkItem;  
   @Output() deleted = new EventEmitter();
   display: boolean = false;
+  state = WorkItemState;
+
   constructor(private sprintService: SprintService,private messageService: MessageService) { }
 
   ngOnInit(): void {

@@ -6,8 +6,8 @@
     <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" (click)="edit()"></button>
     <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-mr-2" (click)="deleteItem()"></button>
     <p-footer>
-        created: {{workItem.created | date}} <br>
-        state: {{workItem.state}} <br>
+        modifiled: {{workItem.lastModified | date}} <br>
+        state: {{state[workItem.state]}} <br>
         priority: {{workItem.priority}}
     </p-footer>
 </p-panel>
