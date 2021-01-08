@@ -4,8 +4,7 @@ using Adv.Data.Enums;
 namespace Adv.Web.Dtos
 {
     public class WorkItemUpdateDto
-    {
-        public Guid Id { get; set; }
+    {        
         public string Title { get; set; }
 
         public string Description { get; set; }
@@ -15,5 +14,6 @@ namespace Adv.Web.Dtos
         public WorkItemState State { get; set; }
 
         public Guid IterationId { get; set; }
+        
     }
 }

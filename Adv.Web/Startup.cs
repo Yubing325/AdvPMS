@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 namespace Adv.Web
 {
@@ -29,7 +30,11 @@ namespace Adv.Web
         {
             services.AddAppRepositories();
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            services.AddControllers();
+            services.AddControllers()
+                    .AddNewtonsoftJson(s => {
+                        s.SerializerSettings.ContractResolver = 
+                            new CamelCasePropertyNamesContractResolver();
+                    });
             services.AddCors();
 
             if (_env.IsDevelopment())

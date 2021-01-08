@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { WorkItem, WorkItemState } from '../../_models/workItem';
+import { WorkItem } from '../../_models/workItem';
+import { WorkItemState } from "../../_models/WorkItemState";
 
 @Component({
   selector: 'app-work-item-grid',

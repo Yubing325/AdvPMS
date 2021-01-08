@@ -7,6 +7,7 @@ import { AddWorkItemDto } from '../sprint/_models/addWorkItemDto';
 import { Iteration } from '../sprint/_models/iteration';
 import { WorkItem } from '../sprint/_models/workItem';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +39,14 @@ getWorkItemsByIteration(iterationId: string){
 }
 
 updateWorkItemState(workItemId:string, state:number){
-  return this.http.put(this.baseUrl + '/workitems/'+ workItemId +'/'+ state, null);
+  
+  let body = [{
+      op: "replace",
+      path: "/state",
+      value: state
+  }];
+
+  return this.http.patch(this.baseUrl + '/workitems/'+ workItemId, body);
 }
 
 addWorkItem(iterationId: string, workItem:AddWorkItemDto): Observable<WorkItem>{

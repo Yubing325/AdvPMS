@@ -1,4 +1,4 @@
-import { WorkItemState } from "./workItem";
+import { WorkItemState } from "./WorkItemState";
 
 export interface AddWorkItemDto {
     title: string;

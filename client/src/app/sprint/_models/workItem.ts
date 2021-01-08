@@ -1,3 +1,5 @@
+import { WorkItemState } from "./WorkItemState";
+
 export interface WorkItem {
     id: string;
     title: string;
@@ -11,10 +13,3 @@ export interface WorkItem {
 }
 
 
-export enum WorkItemState
-{
-    New = 0,
-    Active = 1,
-    Resolved=2,
-    Closed=3
-}

@@ -9,6 +9,7 @@ using Adv.Data.Enums;
 using Adv.Data.Interfaces;
 using Adv.Web.Dtos;
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,17 +21,14 @@ namespace Adv.Web.Controllers
         private readonly WorkItemService _workItemService;
         private readonly IWorkItemRepository _workItemRepository;
         private readonly IIterationRepository _iterationRepository;
-        private readonly AdvContext _context;
 
         private readonly IMapper _mapper;
         public WorkItemsController( WorkItemService workItemService,
                                     IWorkItemRepository workItemRepository,
-                                    IIterationRepository iterationRepository, 
-                                    AdvContext context,        
+                                    IIterationRepository iterationRepository,                                            
                                     IMapper mapper)
         {
-            _mapper = mapper;
-            _context = context;
+            _mapper = mapper;            
             _workItemService = workItemService;
             _workItemRepository = workItemRepository;
             _iterationRepository = iterationRepository;
@@ -83,7 +81,6 @@ namespace Adv.Web.Controllers
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateWorkItem(Guid iterationId, Guid id, WorkItemUpdateDto workItem)
     {
-        if (id != workItem.Id) return BadRequest($"workItem id : {workItem.Id} is not matched to {id}");  
 
         if (!_iterationRepository.IterationExists(iterationId)) return NotFound("Iteration Not Found");
     
@@ -96,57 +93,29 @@ namespace Adv.Web.Controllers
 
         _workItemRepository.UpdateWorkItem(workItemFromRepo);
 
-        try
-        {
-            await _workItemRepository.SaveAllAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!WorkItemExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-
-        return NoContent();
-    }
-
-    [HttpPut("/api/workitems/{id}/{state}")]
-    public async Task<IActionResult> UpdateWorkItemState(Guid id, int state)
-    {
-        var workItem = await _workItemRepository.GetWorkItem(id);
-
-        if(workItem == null) return NotFound(nameof(UpdateWorkItemState) 
-                                                + $"Workitem {id} is not found in our system");
-
-        workItem.State = (WorkItemState)state;
-
-        _context.Entry(workItem).State = EntityState.Modified;
-
-        try
-        {
-            await _workItemRepository.SaveAllAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!WorkItemExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-
-        return NoContent();
+        return await saveAndValidateUpdate(id);
         
     }
 
+    [HttpPatch("/api/workitems/{id}")]
+    public async Task<IActionResult> UpdateWorkItemState(Guid id, 
+                                     JsonPatchDocument<WorkItemUpdateDto> patchDocument)
+    {
+        
+        var workItem = await _workItemRepository.GetWorkItem(id);
+
+        if (workItem == null) return NotFound("WorkItem Not Found"); 
+
+        var workItemToPatch = _mapper.Map<WorkItemUpdateDto>(workItem);
+
+        patchDocument.ApplyTo(workItemToPatch);
+
+        _mapper.Map(workItemToPatch, workItem);
+
+        _workItemRepository.UpdateWorkItem(workItem);
+
+        return await saveAndValidateUpdate(id);
+    }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteWorkItem(Guid iterationId, Guid id)
@@ -187,10 +156,26 @@ namespace Adv.Web.Controllers
         return NoContent();
     }
 
-    private bool WorkItemExists(Guid id)
-    {
-        return _workItemRepository.WorkItemExists(id);
-    }
+#region privates
+    private async Task<IActionResult> saveAndValidateUpdate(Guid id){
+        try
+        {
+            await _workItemRepository.SaveAllAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!_workItemRepository.WorkItemExists(id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+        return NoContent();
+    } 
+#endregion 
    
  }
 }
