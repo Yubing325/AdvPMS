@@ -13,6 +13,7 @@ import {DialogModule} from 'primeng/dialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {DropdownModule} from 'primeng/dropdown';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 //components
 import { StoryBoardsComponent } from './story-boards/story-boards.component';
@@ -46,7 +47,8 @@ import { SbToolbarComponent } from './components/sb-toolbar/sb-toolbar.component
     DialogModule,
     InputTextModule,
     InputTextareaModule,
-    DropdownModule
+    DropdownModule,
+    MultiSelectModule
   ]
 })
 export class SprintModule { }

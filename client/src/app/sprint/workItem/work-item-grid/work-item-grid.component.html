@@ -1,32 +1,35 @@
 <!-- <pre>{{workItems | json}}</pre> -->
 
-<p-table [value]="workItems"  styleClass="p-datatable-responsive-demo p-datatable-striped p-datatable-gridlines">
+<p-table [value]="workItems"  [columns]="selectedColumns" styleClass="p-datatable-responsive-demo p-datatable-striped p-datatable-gridlines">
     <ng-template pTemplate="caption">
-        <div class="p-d-flex">
-            <!-- <button type="button" pButton pRipple icon="pi pi-file-o" (click)="exportCSV()" class="p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button> -->
-            <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()" class="p-button-success p-mr-2"  pTooltip="XLS" tooltipPosition="bottom"></button>
-            <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()" class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-            <!-- <button type="button" pButton pRipple icon="pi pi-filter" (click)="exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto" pTooltip="Selection Only" tooltipPosition="bottom"></button> -->
-        </div>
+        <p-multiSelect [options]="cols" [(ngModel)]="selectedColumns" optionLabel="header"
+            selectedItemsLabel="{0} columns selected" [style]="{minWidth: '200px'}" 
+            placeholder="Choose Columns"></p-multiSelect>
     </ng-template>
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
         <tr>
-            <th>Title</th>            
-            <th>Created</th>
-            <th>Modified</th>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+            </th>
             <th pSortableColumn="priority">Priority<p-sortIcon field="priority"></p-sortIcon></th>
             <th pSortableColumn="state">State <p-sortIcon field="state"></p-sortIcon></th>
-            <th>Iteration</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-item>
+    <ng-template pTemplate="body" let-item let-columns="columns">
         <tr>
-            <td>{{item.title}}</td>
-            <td>{{item.created | date : 'short' }}</td>
-            <td>{{item.lastModified | date : 'short'}}</td>
+            <td *ngFor="let col of columns" [ngSwitch]="col.field">
+                <ng-container *ngSwitchCase="'created'">
+                    {{item[col.field] | date : 'short'}}
+                </ng-container>
+                <ng-container *ngSwitchCase="'lastModified'">
+                    {{item[col.field] | date : 'short'}}
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    {{item[col.field] }}
+                </ng-container>
+            </td>
             <td>{{item.priority}}</td>
-            <td>{{state[item.state]}}</td>
-            <td>{{item.iteration}}</td>
+            <td>{{state[item.state]}}</td>            
         </tr>
     </ng-template>
 </p-table>

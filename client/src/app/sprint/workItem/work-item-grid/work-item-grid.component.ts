@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { WorkItem } from '../../_models/workItem';
 import { WorkItemState } from "../../_models/WorkItemState";
@@ -12,8 +12,9 @@ export class WorkItemGridComponent implements OnInit {
 
   workItems: WorkItem[] = [];
   state = WorkItemState;
-
+  cols: any[];
   exportColumns: any[];
+  _selectedColumns: any[];
 
   constructor(private sprintService: SprintService) { }
 
@@ -27,36 +28,22 @@ export class WorkItemGridComponent implements OnInit {
         console.error(error);
       }
     );
+    this.cols = [
+      { field: 'title', header: 'Title' },
+      { field: 'created', header: 'Created' },
+      { field: 'lastModified', header: 'Modifiled' },
+      { field: 'iteration', header: 'Iteration' },
+    ];
+    this._selectedColumns = this.cols;
   }
 
-  exportPdf() {
-    import("jspdf").then(jsPDF => {
-        import("jspdf-autotable").then(x => {
-            const doc = new jsPDF.default();
-            //generate pdf
-            doc.save('products.pdf');
-        })
-    })
-}
+  get selectedColumns(): any[] {
+    return this._selectedColumns;
+  }
 
-exportExcel() {
-    // import("xlsx").then(xlsx => {
-    //     const worksheet = xlsx.utils.json_to_sheet(this.workItems);
-    //     const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    //     const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-    //     this.saveAsExcelFile(excelBuffer, "workItems");
-    // });
-}
-
-saveAsExcelFile(buffer: any, fileName: string): void {
-    import("file-saver").then(FileSaver => {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
-        const data: Blob = new Blob([buffer], {
-            type: EXCEL_TYPE
-        });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-    });
-}
+  set selectedColumns(val: any[]) {
+    //restore original order
+    this._selectedColumns = this.cols.filter(col => val.includes(col));
+  }
 
 }
